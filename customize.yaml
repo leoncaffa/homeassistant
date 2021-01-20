@@ -1,0 +1,104 @@
+binary_sensor.fibaro_system_co_sensor_heating_system:
+  icon: mdi:molecule-co
+binary_sensor.fibaro_system_flood_sensor_laundry_room:
+  icon: mdi:water
+scene.tv_mode:
+  icon: mdi:television
+script.activate_away_mode:
+  icon: mdi:account-off
+script.activate_holiday_mode:
+  icon: mdi:airplane
+script.activate_home_mode:
+  icon: mdi:home
+script.activate_night_mode:
+  icon: mdi:brightness-3
+sensor.br_measured_time:
+  icon: mdi:update
+sensor.br_measured_date:
+  icon: mdi:calendar
+sensor.presence_sensor_bathroom:
+  icon: mdi:run
+sensor.presence_sensor_hall:
+  icon: mdi:run
+sensor.presence_sensor_corridor:
+  icon: mdi:run
+sensor.presence_sensor_toilet:
+  icon: mdi:run
+sensor.presence_sensor_pantry:
+  icon: mdi:run
+sensor.presence_sensor_kitchen:
+  icon: mdi:run
+sensor.presence_sensor_storage:
+  icon: mdi:run
+sensor.presence_sensor_livingroom:
+  icon: mdi:run
+device_tracker.ipad:
+  icon: mdi:cellphone
+device_tracker.iphone_se:
+  icon: mdi:cellphone
+device_tracker.iphone_8:
+  icon: mdi:cellphone
+device_tracker.iphone_8_gps:
+  icon: mdi:cellphone
+device_tracker.iphone_xs:
+  icon: mdi:cellphone
+device_tracker.iphone_xs_gps:
+  icon: mdi:cellphone
+binary_sensor.ijsselstein_away:
+  icon: mdi:account-off
+switch.camera_voordeur:
+  icon: mdi:security
+switch.camera_woonkamer:
+  icon: mdi:security
+switch.co_alarm:
+  icon: mdi:molecule-co
+switch.flood_alarm:
+  icon: mdi:waves
+switch.dog_at_home:
+  icon: mdi:dog
+switch.fireplace_fan_timer:
+  icon: mdi:fan
+switch.fibaro_system_wall_plug_domotica:
+  icon: mdi:power-cycle
+switch.fibaro_system_wall_plug_fireplace_fan:
+  icon: mdi:power-cycle
+switch.fibaro_system_wall_plug_heating_system:
+  icon: mdi:power-cycle
+switch.fibaro_system_wall_plug_tv_set:
+  icon: mdi:television
+switch.fibaro_system_wall_plug_printer:
+  icon: mdi:printer
+switch.fibaro_system_wall_plug_workstation:
+  icon: mdi:power-cycle
+switch.intruder_alert_access_detected:
+  icon: mdi:bell-outline
+switch.intruder_alert_person_detected:
+  icon: mdi:bell-outline
+switch.intruder_alert_presence_detected:
+  icon: mdi:bell-outline
+switch.neo_coolcam_siren_alarm:
+  icon: mdi:bell-outline
+sensor.living_room_thermostat_hvac_state:
+  icon: mdi:radiator
+sensor.living_room_thermostat_operation_mode:
+  icon: mdi:fire
+sensor.kitchen_nest_protect_battery_health:
+  icon: mdi:battery-charging
+sensor.master_bedroom_nest_protect_battery_health:
+  icon: mdi:battery-charging
+sensor.kitchen_nest_protect_co_status:
+  icon: mdi:smoke-detector
+sensor.kitchen_nest_protect_smoke_status:
+  icon: mdi:smoke-detector
+sensor.kitchen_nest_protect_color_status:
+  icon: mdi:smoke-detector
+sensor.master_bedroom_nest_protect_co_status:
+  icon: mdi:smoke-detector
+sensor.master_bedroom_nest_protect_smoke_status:
+  icon: mdi:smoke-detector
+sensor.master_bedroom_nest_protect_color_status:
+  icon: mdi:smoke-detector
+sensor.dsmr_gas_meter:
+  icon: mdi:fire
+sensor.dsmr_gas_usage:
+  icon: mdi:fire

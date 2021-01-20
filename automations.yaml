@@ -1,0 +1,1186 @@
+- id: activate_away_mode_presence
+  alias: Activate Away Mode (Presence)
+  trigger:
+  - entity_id: person.davy_chan
+    platform: state
+    to: not_home
+  - entity_id: person.karin_den_besten
+    platform: state
+    to: not_home
+  - entity_id: person.leon_caffa
+    platform: state
+    to: not_home
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: person.davy_chan
+      state: home
+    - condition: state
+      entity_id: person.karin_den_besten
+      state: home
+    - condition: state
+      entity_id: person.leon_caffa
+      state: home
+  action:
+  - data: {}
+    entity_id: script.activate_away_mode
+    service: script.turn_on
+- id: activate_away_mode_select
+  alias: Activate Away Mode (Select)
+  trigger:
+  - entity_id: input_select.security_mode
+    platform: state
+    to: Away Mode
+  condition: []
+  action:
+  - data: {}
+    entity_id: script.activate_away_mode
+    service: script.turn_on
+- id: activate_dog_at_home
+  alias: Activate Dog at Home
+  trigger:
+  - entity_id: switch.dog_at_home
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data: {}
+    entity_id: automation.intruder_alarm_detect_person
+    service: automation.turn_off
+  - data: {}
+    entity_id: automation.intruder_alarm_detect_presence
+    service: automation.turn_off
+- id: deactivate_dog_at_home
+  alias: Deactivate Dog at Home
+  trigger:
+  - entity_id: switch.dog_at_home
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - data: {}
+    entity_id: automation.intruder_alarm_detect_person
+    service: automation.turn_on
+  - data: {}
+    entity_id: automation.intruder_alarm_detect_presence
+    service: automation.turn_on
+- id: activate_holiday_mode_select
+  alias: Activate Holiday Mode (Select)
+  trigger:
+  - entity_id: input_select.security_mode
+    platform: state
+    to: Holiday Mode
+  condition: []
+  action:
+  - data: {}
+    entity_id: script.activate_holiday_mode
+    service: script.turn_on
+- id: activate_home_mode_presence
+  alias: Activate Home Mode (Presence)
+  trigger:
+  - entity_id: person.davy_chan
+    platform: state
+    to: home
+  - entity_id: person.karin_den_besten
+    platform: state
+    to: home
+  - entity_id: person.leon_caffa
+    platform: state
+    to: home
+  action:
+  - data: {}
+    entity_id: script.activate_home_mode
+    service: script.turn_on
+- id: activate_home_mode_select
+  alias: Activate Home Mode (Select)
+  trigger:
+  - entity_id: input_select.security_mode
+    platform: state
+    to: Home Mode
+  condition: []
+  action:
+  - data: {}
+    entity_id: script.activate_home_mode
+    service: script.turn_on
+- id: activate_home_mode_time
+  alias: Activate Home Mode (Time)
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.hue_sensor_overloop_motion
+    to: 'on'
+  condition:
+  - condition: time
+    after: 07:30
+    before: '12:00'
+  action:
+  - data: {}
+    entity_id: script.activate_home_mode
+    service: script.turn_on
+  mode: single
+- id: activate_night_mode_select
+  alias: Activate Night Mode (Select)
+  trigger:
+  - entity_id: input_select.security_mode
+    platform: state
+    to: Night Mode
+  condition: []
+  action:
+  - data: {}
+    entity_id: script.activate_night_mode
+    service: script.turn_on
+- id: activate_night_mode_switch
+  alias: Activate Night Mode (Switch)
+  trigger:
+  - device_id: b1930a0dbbd54c25869196faea62bc22
+    domain: hue
+    platform: device
+    subtype: turn_off
+    type: remote_button_short_release
+  condition:
+  - after: '22:30'
+    before: 06:00
+    condition: time
+  action:
+  - data: {}
+    entity_id: script.activate_night_mode
+    service: script.turn_on
+- id: alarm_control_deactivate_co_alarm
+  alias: Alarm Control - Deactivate CO Alarm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.co_alarm
+    to: 'off'
+  action:
+  - service: automation.turn_off
+    data: {}
+    entity_id: automation.co_alarm_heating_system
+  - service: notify.notify
+    data:
+      title: Alarm Control
+      message: CO Alarm deactivated by user
+  mode: single
+- id: alarm_control_deactivate_fire_alarm
+  alias: Alarm Control - Deactivate Fire Alarm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.fire_alarm
+    to: 'off'
+  action:
+  - service: automation.turn_off
+    data: {}
+    entity_id: automation.fire_alarm_heating_system
+  - service: notify.notify
+    data:
+      title: Alarm Control
+      message: Fire Alarm deactivated by user
+  mode: single
+- id: alarm_control_deactivate_flood_alarm
+  alias: Alarm Control - Deactivate Flood Alarm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.flood_alarm
+    to: 'off'
+  action:
+  - service: automation.turn_off
+    data: {}
+    entity_id: automation.flood_alarm_laundry_room
+  - service: notify.notify
+    data:
+      title: Alarm Control
+      message: Flood Alarm deactivated by user
+  mode: single
+- id: alarm_control_deactivate_intruder_alarm
+  alias: Alarm Control - Deactivate Intruder Alarm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.intruder_alarm
+    to: 'off'
+  action:
+  - service: automation.turn_off
+    data: {}
+    entity_id: automation.intruder_alarm_detect_access
+  - service: automation.turn_off
+    data: {}
+    entity_id: automation.intruder_alarm_detect_person
+  - service: automation.turn_off
+    data: {}
+    entity_id: automation.intruder_alarm_detect_presence
+  - service: notify.notify
+    data:
+      title: Alarm Control
+      message: Intruder Alarm deactivated by user
+  mode: single
+- id: co_alarm_heating_system
+  alias: Carbon Monoxide Alarm - Heating System
+  trigger:
+  - entity_id: binary_sensor.fibaro_system_co_sensor_heating_system
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data: {}
+    entity_id: switch.co_alarm
+    service: switch.turn_on
+  - data:
+      data:
+        push:
+          sound:
+            critical: 1
+            name: default
+            volume: 1
+      message: Immediately leave the house. High level of carbon monoxide detected
+        from heating system.
+      title: CO Alarm
+    service: notify.notify
+- id: fire_alarm_heating_system
+  alias: Fire Alarm - Heating System
+  trigger:
+  - entity_id: binary_sensor.fibaro_system_co_sensor_heating_system_fire_alarm
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data: {}
+    entity_id: switch.fire_alarm
+    service: switch.turn_on
+  - data:
+      data:
+        push:
+          sound:
+            critical: 1
+            name: default
+            volume: 1
+      message: Immediately leave the house. Fire alarm from the heating system.
+      title: Fire Alarm
+    service: notify.notify
+- id: flood_alarm_laundry_room
+  alias: Flood Alarm - Laundry Room
+  trigger:
+  - entity_id: binary_sensor.fibaro_system_flood_sensor_laundry_room
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data: {}
+    entity_id: switch.flood_alarm
+    service: switch.turn_on
+  - data:
+      data:
+        push:
+          sound:
+            critical: 1
+            name: default
+            volume: 1
+      message: Water detected in laundry room
+      title: Flood Alarm
+    service: notify.notify
+- id: fan_control_fireplace_timer
+  alias: Fan Control - Fire Place (Time)
+  trigger:
+  - at: input_datetime.fireplace_fan_timer
+    platform: time
+  condition:
+  - condition: state
+    entity_id: input_boolean.fireplace_fan_timer
+    state: 'on'
+  action:
+  - data: {}
+    entity_id: switch.fibaro_system_wall_plug_fireplace_fan
+    service: switch.turn_off
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.fireplace_fan_timer
+  mode: single
+- id: heating_control_alarm
+  alias: Heating Control - Alarm
+  trigger:
+  - platform: state
+    entity_id: input_boolean.co_alarm
+    to: 'on'
+  - platform: state
+    entity_id: input_boolean.fire_alarm
+    to: 'on'
+  condition: []
+  action:
+  - service: climate.turn_off
+    data: {}
+    entity_id: climate.woonkamer
+  - delay: '5'
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.fibaro_system_wall_plug_heating_system
+  mode: single
+- id: heating_control_door_open
+  alias: Heating Control - Door Open
+  trigger:
+  - entity_id: sensor.state_back_door
+    for: 0:03:00
+    platform: state
+    to: open
+  - entity_id: sensor.state_side_door
+    for: 0:03:00
+    platform: state
+    to: open
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: climate.woonkamer
+      state: 'off'
+  action:
+  - service: climate.set_preset_mode
+    data:
+      preset_mode: eco
+    entity_id: climate.woonkamer
+  - data: {}
+    entity_id: automation.heating_control_door_closed
+    service: automation.turn_on
+  - data: {}
+    entity_id: automation.heating_control_door_open
+    service: automation.turn_off
+  mode: single
+- id: heating_control_door_closed
+  alias: Heating Control - Door Closed
+  trigger:
+  - entity_id: sensor.state_back_door
+    for: 00:03:00
+    platform: state
+    to: closed
+  - entity_id: sensor.state_side_door
+    for: 00:03:00
+    platform: state
+    to: closed
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: sensor.state_back_door
+      state: closed
+    - condition: state
+      entity_id: sensor.state_side_door
+      state: closed
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: climate.woonkamer
+        state: 'off'
+  action:
+  - service: climate.set_preset_mode
+    data:
+      preset_mode: none
+    entity_id: climate.woonkamer
+  - data: {}
+    entity_id: automation.heating_control_door_open
+    service: automation.turn_on
+  - data: {}
+    entity_id: automation.heating_control_door_closed
+    service: automation.turn_off
+  mode: single
+- id: heating_control_fireplace_fan
+  alias: Heating Control - Fireplace Fan
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: switch.fibaro_system_wall_plug_fireplace_fan
+    to: 'on'
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: climate.woonkamer
+      state: 'off'
+  action:
+  - service: climate.set_preset_mode
+    data:
+      preset_mode: eco
+    entity_id: climate.woonkamer
+  mode: single
+- id: heating_activation_staying_home
+  alias: Heating Activation - Staying Home
+  trigger:
+  - entity_id: input_select.security_mode
+    from: Night Mode
+    platform: state
+    to: Home Mode
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: sensor.workday
+      state: Homeday
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: climate.woonkamer
+        state: 'off'
+  action:
+  - service: climate.set_preset_mode
+    data:
+      preset_mode: none
+    entity_id: climate.woonkamer
+  - data: {}
+    entity_id: automation.heating_control_door_open
+    service: automation.turn_on
+  - data: {}
+    entity_id: automation.heating_control_door_closed
+    service: automation.turn_off
+  mode: single
+- id: heating_activation_coming_home
+  alias: Heating Activation - Coming Home
+  trigger:
+  - entity_id: input_select.security_mode
+    from: Away Mode
+    platform: state
+    to: Home Mode
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: climate.woonkamer
+      state: 'off'
+  action:
+  - service: climate.set_preset_mode
+    data:
+      preset_mode: none
+    entity_id: climate.woonkamer
+  - data: {}
+    entity_id: automation.heating_control_door_open
+    service: automation.turn_on
+  - data: {}
+    entity_id: automation.heating_control_door_closed
+    service: automation.turn_off
+  mode: single
+- id: heating_deactivation_night_mode
+  alias: Heating Deactivation - Night Mode
+  trigger:
+  - entity_id: input_select.security_mode
+    platform: state
+    to: Night Mode
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: climate.woonkamer
+      state: 'off'
+  action:
+  - service: climate.set_preset_mode
+    data:
+      preset_mode: eco
+    entity_id: climate.woonkamer
+  mode: single
+- id: heating_deactivation_away_mode
+  alias: Heating Deactivation - Away Mode
+  trigger:
+  - entity_id: input_select.security_mode
+    platform: state
+    to: Away Mode
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: climate.woonkamer
+      state: 'off'
+  action:
+  - service: climate.set_preset_mode
+    data:
+      preset_mode: eco
+    entity_id: climate.woonkamer
+  mode: single
+- id: home_assistant_database_management
+  alias: Home Assistant - Database Management
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.database_management_time
+  condition: []
+  action:
+  - service: recorder.purge
+    data:
+      keep_days: 31
+      repack: true
+  mode: single
+- id: home_assistant_start_script_home
+  alias: Home Assistant - Start Script (Home)
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition: []
+  action:
+  - data: {}
+    entity_id: script.activate_home_mode
+    service: script.turn_on
+- id: home_assistant_start_script_night
+  alias: Home Assistant - Start Script (Night)
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition: []
+  action:
+  - data: {}
+    entity_id: script.activate_night_mode
+    service: script.turn_on
+- id: home_assistant_start_script_away
+  alias: Home Assistant - Start Script (Away)
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition: []
+  action:
+  - data: {}
+    entity_id: script.activate_away_mode
+    service: script.turn_on
+- id: home_assistant_start_script_holiday
+  alias: Home Assistant - Start Script (Holiday)
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition: []
+  action:
+  - data: {}
+    entity_id: script.activate_holiday_mode
+    service: script.turn_on
+- id: home_assistant_update_notification
+  alias: Home Assistant - Update Notification
+  trigger:
+  - at: '12:00'
+    platform: time
+  condition:
+  - condition: template
+    value_template: '{{ (states.sensor.current_version.state) != (states.sensor.latest_version.state)
+      }}'
+  action:
+  - data_template:
+      message: Home Assistant {{ (states.sensor.latest_version.state) }} is available.
+      title: System Event
+    service: notify.notify
+- id: home_assistant_low_battery_level
+  alias: Home Assistant - Low battery Level
+  use_blueprint:
+    path: sbyx/low-battery-level-detection-notification-for-all-battery-sensors.yaml
+    input:
+      day: '0'
+      actions:
+      - data:
+          message: Low Battery Level on {{sensors}}
+          title: Home Assistant
+        service: notify.notify
+      threshold: '5'
+- id: intruder_alarm_detect_access
+  alias: Intruder Alarm - Detect Access
+  trigger:
+  - entity_id: sensor.state_back_door
+    platform: state
+    to: open
+  - entity_id: sensor.state_side_door
+    platform: state
+    to: open
+  condition:
+  - condition: state
+    entity_id: switch.intruder_alarm
+    state: 'off'
+  action:
+  - data:
+      data:
+        push:
+          sound:
+            critical: 1
+            name: default
+            volume: 1
+      message: Access Detected
+      title: Intruder Alarm
+    service: notify.notify
+  - data: {}
+    entity_id: switch.intruder_alarm
+    service: switch.turn_on
+- id: intruder_alarm_detect_person
+  alias: Intruder Alarm - Detect Person
+  trigger:
+  - entity_id: binary_sensor.living_room_camera_person_detected
+    platform: state
+  condition:
+  - condition: state
+    entity_id: switch.intruder_alarm
+    state: 'off'
+  action:
+  - data:
+      data:
+        push:
+          sound:
+            critical: 1
+            name: default
+            volume: 1
+      message: Person Detected
+      title: Intruder Alarm
+    service: notify.notify
+  - data: {}
+    entity_id: switch.intruder_alarm
+    service: switch.turn_on
+- id: intruder_alarm_detect_presence
+  alias: Intruder Alarm - Detect Presence
+  trigger:
+  - entity_id: binary_sensor.hue_sensor_badkamer_motion
+    platform: state
+    to: 'on'
+  - entity_id: binary_sensor.hue_sensor_hal_motion
+    platform: state
+    to: 'on'
+  - entity_id: binary_sensor.hue_sensor_overloop_motion
+    platform: state
+    to: 'on'
+  - entity_id: binary_sensor.hue_sensor_toilet_motion
+    platform: state
+    to: 'on'
+  - entity_id: binary_sensor.hue_sensor_voorraadkast_motion
+    platform: state
+    to: 'on'
+  - entity_id: binary_sensor.fibaro_system_motion_sensor_study
+    platform: state
+    to: 'on'
+  - entity_id: binary_sensor.neo_coolcam_pir_sensor_kitchen
+    platform: state
+    to: 'on'
+  - entity_id: binary_sensor.neo_coolcam_pir_sensor_storage
+    platform: state
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: switch.intruder_alarm
+    state: 'off'
+  action:
+  - data:
+      data:
+        push:
+          sound:
+            critical: 1
+            name: default
+            volume: 1
+      message: Presence Detected
+      title: Intruder Alarm
+    service: notify.notify
+  - data: {}
+    entity_id: switch.intruder_alarm
+    service: switch.turn_on
+- id: lights_control_co_alarm
+  alias: Lights Control - CO Alarm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.co_alarm
+    to: 'on'
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      rgb_color:
+      - 255
+      - 0
+      - 255
+      brightness: 255
+      flash: long
+    entity_id: light.hue_color_lights
+  mode: single
+- id: lights_control_fire_alarm
+  alias: Lights Control - Fire Alarm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.fire_alarm
+    to: 'on'
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      brightness: 255
+      flash: long
+    entity_id: light.hue_color_lights
+  mode: single
+- id: lights_control_flood_alarm
+  alias: Lights Control - Flood Alarm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.flood_alarm
+    to: 'on'
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      rgb_color:
+      - 0
+      - 0
+      - 255
+      brightness: 255
+      flash: long
+    entity_id: light.hue_color_lights
+  mode: single
+- id: lights_control_intruder_alarm
+  alias: Lights Control - Intruder Alarm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.intruder_alarm
+    to: 'on'
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      brightness: 255
+      flash: long
+    entity_id: light.hue_color_lights
+  mode: single
+- id: lights_control_kitchen
+  alias: Lights Control - Kitchen
+  trigger:
+  - entity_id: timer.kitchen_timer
+    platform: state
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: timer.kitchen_timer
+        state: active
+      sequence:
+      - service: light.turn_on
+        data: {}
+        entity_id: light.keuken
+      - service: light.turn_on
+        data: {}
+        entity_id: light.eetkamer
+    default:
+    - service: light.turn_off
+      data: {}
+      entity_id: light.keuken
+    - service: light.turn_off
+      data: {}
+      entity_id: light.eetkamer
+  mode: single
+- id: lights_control_study
+  alias: Lights Control - Study
+  trigger:
+  - entity_id: timer.study_timer
+    platform: state
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.sun_elevation
+    below: '4'
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: timer.study_timer
+        state: active
+      sequence:
+      - service: light.turn_on
+        data: {}
+        entity_id: light.kantoor
+    default:
+    - service: light.turn_off
+      data: {}
+      entity_id: light.kantoor
+  mode: single
+- id: lights_control_living_room
+  alias: Lights Control - Living Room
+  trigger:
+  - entity_id: sensor.state_side_door
+    platform: state
+    to: open
+  - below: '4'
+    entity_id: sensor.sun_elevation
+    platform: numeric_state
+  - below: '50'
+    entity_id: sensor.fibaro_system_wall_plug_tv_set_power
+    for: 00:00:03
+    platform: numeric_state
+  condition:
+  - condition: and
+    conditions:
+    - below: '4'
+      condition: numeric_state
+      entity_id: sensor.sun_elevation
+    - below: '50'
+      condition: numeric_state
+      entity_id: sensor.fibaro_system_wall_plug_tv_set_power
+  action:
+  - data: {}
+    entity_id: scene.lights_living_room
+    service: scene.turn_on
+  mode: single
+- id: lights_control_sundown
+  alias: Lights Control - Sundown
+  trigger:
+  - below: '4'
+    entity_id: sensor.sun_elevation
+    platform: numeric_state
+  condition: []
+  action:
+  - data: {}
+    entity_id: scene.lights_sundown
+    service: scene.turn_on
+- id: lights_control_sunrise
+  alias: Lights Control - Sunrise
+  trigger:
+  - above: '4'
+    entity_id: sensor.sun_elevation
+    platform: numeric_state
+  condition: []
+  action:
+  - data: {}
+    entity_id: scene.lights_sunrise
+    service: scene.turn_on
+- id: lights_control_tv_mode
+  alias: Lights Control - TV Mode
+  trigger:
+  - below: '4'
+    entity_id: sensor.sun_elevation
+    platform: numeric_state
+  - above: '50'
+    entity_id: sensor.fibaro_system_wall_plug_tv_set_power
+    platform: numeric_state
+  condition:
+  - below: '4'
+    condition: numeric_state
+    entity_id: sensor.sun_elevation
+  - above: '50'
+    condition: numeric_state
+    entity_id: sensor.fibaro_system_wall_plug_tv_set_power
+  action:
+  - data:
+      entity_id: scene.lights_tv_mode
+    service: scene.turn_on
+- id: lights_control_twinkly
+  alias: Lights Control - Twinkly
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_select.security_mode
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.security_mode
+        state: Night Mode
+      sequence:
+      - type: turn_off
+        device_id: 1db52775428491bbf3e5a1aa8a8f0f0f
+        entity_id: light.twinkly
+        domain: light
+    - conditions:
+      - condition: state
+        entity_id: input_select.security_mode
+        state: Holiday Mode
+      sequence:
+      - type: turn_off
+        device_id: 1db52775428491bbf3e5a1aa8a8f0f0f
+        entity_id: light.twinkly
+        domain: light
+    default:
+    - type: turn_on
+      device_id: 1db52775428491bbf3e5a1aa8a8f0f0f
+      entity_id: light.twinkly
+      domain: light
+      brightness_pct: 100
+  mode: single
+- id: lights_control_activate_presence_mimicking
+  alias: Lights Control - Activate Presence Mimicking
+  trigger:
+  - below: '4'
+    entity_id: sensor.sun_elevation
+    platform: numeric_state
+  action:
+  - data: {}
+    entity_id: scene.lights_presence_mimicking
+    service: scene.turn_on
+  - data: {}
+    entity_id: automation.lights_control_deactivate_presence_mimicking
+    service: automation.turn_on
+- id: lights_control_deactivate_presence_mimicking
+  alias: Lights Control - Deactivate Presence Mimicking
+  trigger:
+  - at: '23:30'
+    platform: time
+  action:
+  - data:
+      entity_id: scene.lights_night_mode
+    service: scene.turn_on
+  - data: {}
+    entity_id: automation.lights_control_deactivate_presence_mimicking
+    service: automation.turn_off
+- id: network_alarm_detect_unknown_device
+  alias: Network Status - Unknown device detected
+  trigger:
+  - event_type: device_tracker_new_device
+    platform: event
+  condition: []
+  action:
+  - data_template:
+      message: 'Unknown Device: {{trigger.event.data.host_name}}'
+      title: Network Alarm
+    service: notify.notify
+- id: network_status_internet_bandwidth_low
+  alias: Network Status - Internet bandwidth low
+  trigger:
+  - entity_id: binary_sensor.bandwidth_low
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data_template:
+      message: Internet bandwidth below normal
+      title: Network Status
+    service: notify.notify
+  - data: {}
+    entity_id: automation.network_status_internet_bandwidth_restored
+    service: automation.turn_on
+  - data: {}
+    entity_id: automation.network_status_internet_bandwidth_low
+    service: automation.turn_off
+- id: network_status_internet_bandwidth_restored
+  alias: Network Status - Internet bandwidth restored
+  trigger:
+  - entity_id: binary_sensor.bandwidth_low
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - data_template:
+      message: Internet bandwidth restored
+      title: Network Status
+    service: notify.notify
+  - data: {}
+    entity_id: automation.network_status_internet_bandwidth_low
+    service: automation.turn_on
+  - data: {}
+    entity_id: automation.network_status_internet_bandwidth_restored
+    service: automation.turn_off
+- id: open_window_alert_fire_place
+  alias: Open Window Alert - Fire Place
+  trigger:
+  - entity_id: switch.fibaro_system_wall_plug_fireplace_fan
+    platform: state
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: sensor.state_master_bed_room_window
+    state: open
+  action:
+  - data: {}
+    entity_id: switch.fibaro_system_wall_plug_fireplace_fan
+    service: switch.turn_off
+  - data:
+      data:
+        push:
+          sound:
+            critical: 1
+            name: default
+            volume: 1
+      message: Slaapkamerraam staat open
+      title: Home Assistant
+    service: notify.notify
+  - service: light.turn_on
+    data:
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      brightness: 255
+    entity_id: light.hue_play_lights
+  mode: single
+- id: person_update_notification
+  alias: Person Update Notification
+  trigger:
+  - entity_id: person.leon_caffa
+    platform: state
+  - entity_id: person.karin_den_besten
+    platform: state
+  - entity_id: person.davy_chan
+    platform: state
+  condition: []
+  action:
+  - data:
+      message: "{% if trigger.entity_id == \"person.leon_caffa\" %}\n {% set person\
+        \ = \"Leon\" %}\n{% elif trigger.entity_id == \"person.karin_den_besten\"\
+        \ %}\n {% set person = \"Karin\" %}\n{% elif trigger.entity_id == \"person.davy_chan\"\
+        \ %}\n {% set person = \"Davy\" %}\n{% endif %}\n{% if trigger.to_state.state\
+        \ == 'home' %}\n {{ person }} arrives at home\n{% else %}\n {{ person }} leaves\
+        \ home\n{% endif %}\n"
+      title: Presence Update
+    service: notify.mobile_app_iphone_xs
+  - data:
+      message: "{% if trigger.entity_id == \"person.leon_caffa\" %}\n {% set person\
+        \ = \"Leon\" %}\n{% elif trigger.entity_id == \"person.karin_den_besten\"\
+        \ %}\n {% set person = \"Karin\" %}\n{% elif trigger.entity_id == \"person.davy_chan\"\
+        \ %}\n {% set person = \"Davy\" %}\n{% endif %}\n{% if trigger.to_state.state\
+        \ == 'home' %}\n {{ person }} arrives at home\n{% else %}\n {{ person }} leaves\
+        \ home\n{% endif %}\n"
+      title: Presence Update
+    service: notify.mobile_app_ipad
+  mode: single
+- id: printer_control_timer_start
+  alias: Printer Control (Timer Start)
+  trigger:
+  - platform: state
+    entity_id: switch.fibaro_system_wall_plug_printer
+    to: 'on'
+  condition: []
+  action:
+  - service: timer.start
+    data: {}
+    entity_id: timer.printer_timer
+  mode: single
+- id: printer_control_timer_cancelled
+  alias: Printer Control (Timer Cancelled)
+  trigger:
+  - platform: state
+    entity_id: switch.fibaro_system_wall_plug_printer
+    to: 'off'
+  condition: []
+  action:
+  - service: timer.cancel
+    data: {}
+    entity_id: timer.printer_timer
+  mode: single
+- id: printer_control_timer_finished
+  alias: Printer Control (Timer Finished)
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.printer_timer
+  condition: []
+  action:
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.fibaro_system_wall_plug_printer
+  mode: single
+- id: siren_control_activate_alarm
+  alias: Siren Control - Activate Alarm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.co_alarm
+    to: 'on'
+  - platform: state
+    entity_id: input_boolean.fire_alarm
+    to: 'on'
+  - platform: state
+    entity_id: input_boolean.flood_alarm
+    to: 'on'
+  - platform: state
+    entity_id: input_boolean.intruder_alarm
+    to: 'on'
+  action:
+  - service: switch.turn_on
+    data: {}
+    entity_id: switch.neo_coolcam_siren_alarm
+  mode: single
+- id: siren_control_deactivate_alarm
+  alias: Siren Control - Deactivate Alarm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.co_alarm
+    to: 'off'
+  - platform: state
+    entity_id: input_boolean.fire_alarm
+    to: 'off'
+  - platform: state
+    entity_id: input_boolean.flood_alarm
+    to: 'off'
+  - platform: state
+    entity_id: input_boolean.intruder_alarm
+    to: 'off'
+  action:
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.neo_coolcam_siren_alarm
+  mode: single
+- id: timer_control_kitchen
+  alias: Timer Control Kitchen
+  description: Starts light timer in kitchen to trigger lights control in Home Mode
+    when sun is down
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.neo_coolcam_pir_sensor_kitchen
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_select.security_mode
+    state: Home Mode
+  - condition: numeric_state
+    entity_id: sensor.sun_elevation
+    below: '4'
+  action:
+  - service: timer.start
+    data: {}
+    entity_id: timer.kitchen_timer
+  mode: single
+- id: timer_control_study
+  alias: Timer Control Study
+  description: Starts light timer in study to trigger lights control in Home Mode
+    when sun is down
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.fibaro_system_motion_sensor_study
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.sun_elevation
+    below: '4'
+  - condition: state
+    entity_id: input_select.security_mode
+    state: Home Mode
+  action:
+  - service: timer.start
+    data: {}
+    entity_id: timer.study_timer
+  mode: single
+- id: heating_alert_mode_change
+  alias: Heating Alert - Mode Change
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: climate.woonkamer
+    attribute: preset_mode
+  condition:
+  - condition: state
+    entity_id: climate.woonkamer
+    state: heat
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: climate.woonkamer
+        state: none
+        attribute: preset_mode
+      sequence:
+      - service: notify.notify
+        data:
+          title: Home Assistant
+          message: Heating is on
+    - conditions:
+      - condition: state
+        entity_id: climate.woonkamer
+        state: eco
+        attribute: preset_mode
+      sequence:
+      - service: notify.notify
+        data:
+          title: Home Assistant
+          message: Heating is in eco mode
+    default: []
+  mode: single

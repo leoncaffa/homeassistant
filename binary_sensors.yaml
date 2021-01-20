@@ -1,0 +1,11 @@
+  - platform: workday
+    name: workday
+    country: NL
+    workdays: []
+#  - platform: hikvision
+#    name: camera01
+#    host: 10.0.30.31
+#    port: 80
+#    ssl: false
+#    username: !secret hikvision_camera01_user
+#    password: !secret hikvision_camera01_pass

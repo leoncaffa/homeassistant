@@ -1,0 +1,24 @@
+  co_alarm:
+    name: Carbon Monoxide Alarm
+    initial: off
+    icon: mdi:molecule-co
+  dog_at_home:
+    name: Dog at Home
+    initial: on
+    icon: mdi:dog
+  flood_alarm:
+    name: Flood Alarm
+    initial: off
+    icon: mdi:waves
+  fire_alarm:
+    name: Fire Alarm
+    initial: off
+    icon: mdi:fire
+  intruder_alarm:
+    name: Intruder Alarm
+    initial: off
+    icon: mdi:exit-run
+  fireplace_fan_timer:
+    name: Fireplace Fan Timer
+    initial: off
+    icon: mdi:fan

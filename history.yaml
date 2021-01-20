@@ -1,0 +1,15 @@
+    entities:
+      - sensor.living_room_thermostat_operation_mode
+      - input_select.security_mode
+      - sensor.state_back_door
+      - sensor.state_side_door
+      - binary_sensor.fibaro_system_motion_sensor_livingroom
+      - binary_sensor.neo_coolcam_pir_sensor_kitchen
+      - binary_sensor.neo_coolcam_pir_sensor_storage
+    domains:
+      - person
+      - switch
+      - device_tracker
+    entity_globs:
+      - binary_sensor.hue_sensor_*
+      - sensor.speedtest_*

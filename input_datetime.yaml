@@ -1,0 +1,11 @@
+  fireplace_fan_timer:
+    name: Fire Place Fan Timer
+    icon: mdi:fan
+    has_date: false
+    has_time: true
+  database_management_time:
+    name: Database Management
+    icon: mdi:database
+    initial: 04:00
+    has_date: false
+    has_time: true
